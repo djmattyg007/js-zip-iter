@@ -127,3 +127,18 @@ const zipped3 = zip(zipped1, zipped2);
  * ]
  */
 ```
+
+## Acknowledgements
+
+The actual implementation of zip and zipLongest has been taken from the npm package
+``iterablefu``, which you can find at the following URL:
+
+https://github.com/toolbuilder/iterablefu
+
+I decided to rip out these functions to make them standalone because the package as
+a whole comes with some weird, unnecessary dependencies for what should be a
+relatively straightforward library.
+
+The type declarations for both functions were adapted from the lodash zip implementation.
+Why not use lodash zip, you ask? Because it only handles arrays and makes no attempt
+to utilise ``Symbol.iterator``.
