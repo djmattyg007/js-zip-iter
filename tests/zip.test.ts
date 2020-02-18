@@ -128,14 +128,14 @@ export default class ZipTest {
             for (let x = 0; x < count; x++) {
                 yield x;
             }
-        }
+        };
 
         const genFuncChars = function*(charStart: number, count: number): Generator<string> {
             const charFinish = charStart + Math.abs(count);
             for (let x = charStart; x < charFinish; x++) {
                 yield String.fromCharCode(x);
             }
-        }
+        };
 
         const expected1 = [[0, "A"], [1, "B"], [2, "C"]] as [number, string][];
         const expected2 = [[0, "F"], [1, "G"]] as [number, string][];
@@ -148,6 +148,43 @@ export default class ZipTest {
         Expect([...zipped1]).toEqual(expected1);
         Expect([...zipped2]).toEqual(expected2);
         Expect([...zipped3]).toEqual(expected3);
+    }
+
+    @Test("it supports zip generators")
+    public itSupportsZipGenerators() {
+        const string1 = "abc";
+        const string2 = "xyz";
+
+        const expected = [
+            [["a", "x"], ["x", "a"]],
+            [["b", "y"], ["y", "b"]],
+            [["c", "z"], ["z", "c"]],
+        ] as [[string, string], [string, string]][];
+
+        const zipped1 = zip(string1, string2);
+        const zipped2 = zip(string2, string1);
+        const zipped3 = zip(zipped1, zipped2);
+
+        Expect([...zipped3]).toEqual(expected);
+    }
+
+    @Test("it supports mixed zip generators")
+    public itSupportsMixedZipGenerators() {
+        const myStr = "zzz";
+        const myArr = ["i", "i", "i"];
+        const myMap = new Map<number, string>().set(0, "p").set(1, "p").set(2, "p");
+
+        const expected = [
+            [['z', 'i', 'p'], ['p', 'i', 'z']],
+            [['z', 'i', 'p'], ['p', 'i', 'z']],
+            [['z', 'i', 'p'], ['p', 'i', 'z']],
+        ] as [[string, string, string], [string, string, string]][];
+
+        const zipped1 = zip(myStr, myArr, myMap.values());
+        const zipped2 = zip(myMap.values(), myArr, myStr);
+        const zipped3 = zip(zipped1, zipped2);
+
+        Expect([...zipped3]).toEqual(expected);
     }
 
     @Test("it supports mixing arrays, iterables, iterators and generators")
