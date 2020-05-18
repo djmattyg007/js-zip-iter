@@ -1,7 +1,7 @@
 {
     "name": "zip-iter",
     "description": "Standalone zip and zipLongest functions that support all iterators.",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "license": "MIT",
     "author": "Matthew Gamble <git@matthewgamble.net>",
     "devDependencies": {
